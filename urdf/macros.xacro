@@ -1,0 +1,105 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+
+<!-- cylinder shape link -->
+  <xacro:macro name="base_cylinder" params="name l_rpy l_xyz mass r l">
+    <link name="${name}">
+       <origin rpy="${l_rpy}" xyz="${l_xyz}"/>
+      <inertial>
+        <mass value="${mass}"/>
+        <inertia  ixx="${mass*(3*r*r+l*l)/12}" ixy = "0" ixz = "0"
+                  iyy="${mass*(3*r*r+l*l)/12}" iyz = "0"
+                  izz="${mass*(r*r)/2}" />
+      </inertial>
+
+      <collision >
+        <origin rpy="${l_rpy}" xyz="${l_xyz}"/>
+        <geometry>
+          <cylinder length="${l}" radius="${r}"/>
+        </geometry>
+      </collision>
+
+      <visual >
+       <origin rpy="${l_rpy}" xyz="${l_xyz}"/>
+        <geometry>
+          <cylinder length="${l}" radius="${r}"/>
+        </geometry>
+      </visual>
+
+    </link>
+  </xacro:macro>
+
+  <!-- sphere shape link -->
+  <xacro:macro name="custom_sphere" params="name s_rpy s_xyz s_mass s_r ">
+    <link name="${name}">
+      <origin rpy="${s_rpy}" xyz="{s_xyz}"/>
+      <inertial>
+        <mass value="${s_mass}"/>
+        <inertia  ixx="${s_mass*2/5*s_r*s_r}" ixy = "0" ixz = "0"
+                  iyy="${s_mass*2/5*s_r*s_r}" iyz = "0"
+                  izz="${s_mass*2/5*s_r*s_r}"/> 
+      </inertial>
+
+      <collision >
+       <!--  <origin rpy="${s_rpy}" xyz="{s_xyz}"/> -->
+        <geometry>
+          <sphere radius="${s_r}"/>
+        </geometry>
+      </collision>
+
+      <visual >
+        <!-- <origin rpy="${s_rpy}" xyz="{s_xyz}"/> -->
+        <geometry>
+          <sphere radius="${s_r}"/>
+        </geometry>
+      </visual>
+
+    </link>
+  </xacro:macro>
+
+
+  <!--  cube shape link  -->
+  <xacro:macro name="custom_box" params="name b_rpy b_xyz b_mass b_x b_y b_z ">
+    <link name="${name}">
+      <origin rpy="${b_rpy}" xyz="{b_xyz}"/>
+      <inertial>
+        <mass value="${b_mass}"/>
+        <inertia  ixx="${b_mass*(b_y+b_z)/12}" ixy = "0" ixz = "0"
+                  iyy="${b_mass*(b_x*b_z)/12}" iyz = "0"
+                  izz="${b_mass*(b_x*b_y)/12}"/>
+      </inertial>
+
+      <collision >
+        
+        <geometry>
+         <box size="${b_x} ${b_y} ${b_z}" />
+        </geometry>
+      </collision>
+
+      <visual >
+       
+        <geometry>
+         <box size="${b_x} ${b_y} ${b_z}" />
+        </geometry>
+      </visual>
+
+    </link>
+  </xacro:macro>
+
+
+<!-- For all types of joint -->
+  <xacro:macro name="custom_joint" params="name joint_type j_axis j_parent j_child j_rpy j_xyz ">
+    <joint name="${name}" type="${joint_type}">
+      <axis xyz="${j_axis}" />
+      <origin rpy="${j_rpy}" xyz="${j_xyz}"/>
+      <parent link="${j_parent}"/>
+      <child link="${j_child}"/>
+      <limit effort="1000" lower="0" upper="6.28" velocity="100" />
+      <axis rpy="${j_rpy}" xyz="${j_xyz}"/>
+      <joint_properties damping="1.0" friction="1.0"/>
+    </joint>
+  </xacro:macro>
+    
+   
+
+</robot>

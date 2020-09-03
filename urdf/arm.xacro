@@ -1,0 +1,62 @@
+<?xml version="1.0" ?>
+<!-- Differential drive robot -->
+
+<robot name="diff_robot" xmlns:xacro="http://www.ros.org/wiki/xacro">
+<!-- <xacro:include filename="$(find manipulator)/urdf/materials.xacro" />
+ --><!-- <xacro:include filename="$(find manipulator/urdf/arm.gazebo" /> -->
+<xacro:include filename="$(find manipulator)/urdf/macros.xacro" />
+
+<link name="world"/>
+<!-- Base of a robot -->
+
+<xacro:base_cylinder name="arm1" l_rpy="0 0 0" l_xyz="0 0 0.3" mass="0.8" r="0.03" l="0.6"  />  
+
+<!-- fixing top on base of robot -->
+<xacro:custom_joint name="base_joint" joint_type="fixed" j_axis="0 0 0" j_parent="world" j_child="arm1" j_rpy="0 0 0" j_xyz="0 0 0" />
+
+
+<xacro:base_cylinder name="arm2" l_rpy="0 0 0" l_xyz="0 0 0.18" mass="0.4" r="0.03" l="0.5"  />  
+
+<xacro:custom_joint name="joint1" joint_type="continuous" j_axis="0 1 0" j_parent="arm1" j_child="arm2" j_rpy="0 0 0" j_xyz="0 0.07 0.55" />
+
+
+<xacro:base_cylinder name="arm3" l_rpy="0 0 0" l_xyz="0 0 0.15" mass="0.4" r="0.03" l="0.4"  />  
+
+<xacro:custom_joint name="joint2" joint_type="continuous" j_axis="0 1 0" j_parent="arm2" j_child="arm3" j_rpy="0 0 0" j_xyz="0 0.07 0.45" />
+ 
+
+
+ <transmission name="tran1">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint1">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor1">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+  <transmission name="tran2">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="joint2">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="motor2">
+      <hardwareInterface>EffortJointInterface</hardwareInterface>
+      <mechanicalReduction>1</mechanicalReduction>
+    </actuator>
+  </transmission>
+
+
+
+</robot>
+
+
+
+
+
+
+
+
