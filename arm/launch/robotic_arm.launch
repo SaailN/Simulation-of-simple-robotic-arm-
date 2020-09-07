@@ -1,9 +1,8 @@
 <launch>
 
-  <rosparam file="$(find manipulator)/config/arm.yaml" command="load"/>
+  <rosparam file="$(find arm)/config/arm.yaml" command="load"/>
 
-    <param name="robot_description" command="$(find xacro)/xacro --inorder '$(find manipulator)/urdf/arm.xacro'"/>
-   
+    <param name="robot_description" command="$(find xacro)/xacro.py '$(find arm)/urdf/arm.xacro'"/>
    
 
 
@@ -21,17 +20,13 @@
 
         <!-- Spawn the robot model -->
         <node name="mybot_spawn" pkg="gazebo_ros" type="spawn_model" output="screen" 
-              args="-urdf -param robot_description -model diff_robot -x $(arg x) -y $(arg y) -z $(arg z)" />
+              args="-urdf -param robot_description -model robotic_arm -x $(arg x) -y $(arg y) -z $(arg z)" />
 
         
 
 
-    
-     <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
-        <param name="use_gui" value="True"/>
-    </node> 
+  
 
-     <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher"/>
 
 
 
@@ -40,9 +35,10 @@
 
   <!-- load the controllers -->
   <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
-    output="screen" ns="/diff_robot" args="joint1_position_controller joint2_position_controller joint_state_controller"/>
+    output="screen" ns="/robotic_arm" args="joint1_position_controller joint2_position_controller joint_state_controller"/>
 
 
+     <node name="robot_state_publisher" pkg="robot_state_publisher" type="state_publisher" respawn="false" output="screen"/>
 
   
 </launch>

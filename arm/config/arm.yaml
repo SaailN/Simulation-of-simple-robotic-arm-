@@ -1,4 +1,4 @@
-diff_robot:
+robotic_arm:
   # Publish all joint states -----------------------------------
   joint_state_controller:
     type: joint_state_controller/JointStateController
@@ -13,3 +13,5 @@ diff_robot:
     type: effort_controllers/JointPositionController
     joint: joint2
     pid: {p: 100.0, i: 0.01, d: 10.0}
+
+

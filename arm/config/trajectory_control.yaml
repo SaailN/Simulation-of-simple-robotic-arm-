@@ -1,0 +1,8 @@
+robotic_arm:
+ robotic_arm_controller:
+    type: "position_controllers/JointTrajectoryController"
+    joints:
+      - joint1
+      - joint2
+     
+
